@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import AppView
+import AppCore
+import ComposableArchitecture
 
 @main
 struct wokinpublicApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppView(
+                store: Store(
+                    initialState: AppCore.State(),
+                    reducer: AppCore()
+                )
+            )
         }
     }
 }

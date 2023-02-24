@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		699F650D29A96C0E0060BCBA /* AppView in Frameworks */ = {isa = PBXBuildFile; productRef = 699F650C29A96C0E0060BCBA /* AppView */; };
 		69C8746E2970CB3F0094E0DB /* wokinpublicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8746D2970CB3F0094E0DB /* wokinpublicApp.swift */; };
 		69C874702970CB3F0094E0DB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C8746F2970CB3F0094E0DB /* ContentView.swift */; };
 		69C874722970CB400094E0DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69C874712970CB400094E0DB /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		699F650A29A968300060BCBA /* wip */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = wip; sourceTree = "<group>"; };
 		69C8746A2970CB3F0094E0DB /* wokinpublic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wokinpublic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C8746D2970CB3F0094E0DB /* wokinpublicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wokinpublicApp.swift; sourceTree = "<group>"; };
 		69C8746F2970CB3F0094E0DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				699F650D29A96C0E0060BCBA /* AppView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,13 +75,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		699F650B29A96C0E0060BCBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		69C874612970CB3F0094E0DB = {
 			isa = PBXGroup;
 			children = (
+				699F650A29A968300060BCBA /* wip */,
 				69C8746C2970CB3F0094E0DB /* wokinpublic */,
 				69C8747E2970CB400094E0DB /* wokinpublicTests */,
 				69C874882970CB400094E0DB /* wokinpublicUITests */,
 				69C8746B2970CB3F0094E0DB /* Products */,
+				699F650B29A96C0E0060BCBA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,6 +157,9 @@
 			dependencies = (
 			);
 			name = wokinpublic;
+			packageProductDependencies = (
+				699F650C29A96C0E0060BCBA /* AppView */,
+			);
 			productName = wokinpublic;
 			productReference = 69C8746A2970CB3F0094E0DB /* wokinpublic.app */;
 			productType = "com.apple.product-type.application";
@@ -604,6 +619,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		699F650C29A96C0E0060BCBA /* AppView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 69C874622970CB3F0094E0DB /* Project object */;
 }
