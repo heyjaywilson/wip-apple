@@ -14,8 +14,12 @@ public struct NewProjectCore: ReducerProtocol {
     public struct State: Equatable {
         @BindingState public var title = ""
         @BindingState public var description = ""
-
+        
         public var name: String
+
+        public var isAddButtonEnabled: Bool {
+            return title.count > 0
+        }
 
         public init(name: String = "") {
             self.name = name
@@ -26,6 +30,7 @@ public struct NewProjectCore: ReducerProtocol {
         case onAppear
         case binding(BindingAction<State>)
         case addProjectButtonTapped
+        case cancelButtonTapped
     }
 
     public var body: some ReducerProtocol<State, Action> {
@@ -41,6 +46,9 @@ public struct NewProjectCore: ReducerProtocol {
                 return .none
             case .addProjectButtonTapped:
                 print("add project to db")
+                return .none
+            case .cancelButtonTapped:
+                print("Cancel button tapped")
                 return .none
         }
     }
