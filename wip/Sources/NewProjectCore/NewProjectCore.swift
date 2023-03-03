@@ -17,8 +17,8 @@ public struct NewProjectCore: ReducerProtocol {
 
         public var name: String
 
-        public var isAddButtonEnabled: Bool {
-            return title.count > 0
+        public var isAddButtonDisabled: Bool {
+            return title.count <= 0
         }
 
         public init(name: String = "") {
@@ -26,11 +26,16 @@ public struct NewProjectCore: ReducerProtocol {
         }
     }
 
-    public enum Action: BindableAction {
+    public enum Action: BindableAction, Equatable {
         case onAppear
         case binding(BindingAction<State>)
         case addProjectButtonTapped
         case cancelButtonTapped
+        case delegate(Delegate)
+
+        public enum Delegate {
+            case cancelButtonTapped
+        }
     }
 
     public var body: some ReducerProtocol<State, Action> {
@@ -47,9 +52,10 @@ public struct NewProjectCore: ReducerProtocol {
             case .addProjectButtonTapped:
                 print("add project to db")
                 return .none
-            case .cancelButtonTapped:
-                print("Cancel button tapped")
+            case .delegate:
                 return .none
+            case .cancelButtonTapped:
+                return .send(.delegate(.cancelButtonTapped))
         }
     }
 }

@@ -34,12 +34,9 @@ public struct NewProjectView: View {
                         viewStore.send(.addProjectButtonTapped)
                     } label: {
                         Text("Add Project")
-                    }.disabled(true)
+                    }.disabled(viewStore.isAddButtonDisabled)
                 }
             }
-            .padding()
-            .background(.thickMaterial)
-            .cornerRadius(10)
             .padding()
         }
     }

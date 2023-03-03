@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppCore
+import NewProjectView
 import ComposableArchitecture
 import SFSafeSymbols
 
@@ -40,6 +41,14 @@ public struct AppView: View {
                             .padding(.bottom)
                         Spacer()
                     }
+                }.sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
+
+                        NewProjectView(
+                            store: self.store.scope(
+                                state: \.newProjectState,
+                                action: AppCore.Action.newProject
+                            )
+                        )
                 }
             } content: {
                 Text("tasks")
@@ -47,6 +56,7 @@ public struct AppView: View {
                 Text("project")
             }
         }
+        .debug()
     }
 }
 
