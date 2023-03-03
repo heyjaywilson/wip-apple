@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  NewProjectCore.swift
 //  
 //
 //  Created by Jay on 2/24/23.
@@ -14,7 +14,7 @@ public struct NewProjectCore: ReducerProtocol {
     public struct State: Equatable {
         @BindingState public var title = ""
         @BindingState public var description = ""
-        
+
         public var name: String
 
         public var isAddButtonEnabled: Bool {
