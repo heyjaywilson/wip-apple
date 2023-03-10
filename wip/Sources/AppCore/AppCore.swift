@@ -64,6 +64,10 @@ public struct AppCore: ReducerProtocol {
                             state.showAddProjectForm = false
                         }
                         return .none
+                    case .successfulResponse:
+                        state.newProjectState = NewProjectCore.State()
+                        state.showAddProjectForm = false
+                        return .none
                 }
             case .newProject:
                 return .none

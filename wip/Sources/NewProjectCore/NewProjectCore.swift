@@ -7,8 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Dependencies
+import API
+import WIPKit
 
 public struct NewProjectCore: ReducerProtocol {
+    @Dependency(\.apiClient) var apiClient
     public init() {}
 
     public struct State: Equatable {
@@ -31,9 +35,11 @@ public struct NewProjectCore: ReducerProtocol {
         case binding(BindingAction<State>)
         case addProjectButtonTapped
         case cancelButtonTapped
+        case createProjectResponse(TaskResult<Project>)
         case delegate(Delegate)
 
         public enum Delegate {
+            case successfulResponse
             case cancelButtonTapped
         }
     }
@@ -44,18 +50,28 @@ public struct NewProjectCore: ReducerProtocol {
     }
 
     private func core(into state: inout State, action: Action) -> EffectTask<Action> {
+        
         switch action {
             case .onAppear:
                 return .none
             case .binding(_):
                 return .none
             case .addProjectButtonTapped:
-                print("add project to db")
-                return .none
+                let description: String? = state.description.count > 0 ? state.description : nil
+                let project = Project(title: state.title, description: description)
+                return .task {
+                    await .createProjectResponse(TaskResult { try await apiClient.addNewProject(project) })
+                }
             case .delegate:
                 return .none
             case .cancelButtonTapped:
                 return .send(.delegate(.cancelButtonTapped))
+            case .createProjectResponse(.success(let project)):
+                print(project)
+                return .none
+            case .createProjectResponse(.failure(let error)):
+                print("❌ \(error)")
+                return .none
         }
     }
 }
