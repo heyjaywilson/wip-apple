@@ -16,17 +16,16 @@ public struct NewProjectCore: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        @BindingState public var title = ""
-        @BindingState public var description = ""
-
-        public var name: String
+        @BindingState public var title: String
+        @BindingState public var description: String
 
         public var isAddButtonDisabled: Bool {
             return title.count <= 0
         }
 
-        public init(name: String = "") {
-            self.name = name
+        public init(title: String = "", description: String = "") {
+            self.title = title
+            self.description = description
         }
     }
 
@@ -50,7 +49,6 @@ public struct NewProjectCore: ReducerProtocol {
     }
 
     private func core(into state: inout State, action: Action) -> EffectTask<Action> {
-        
         switch action {
             case .onAppear:
                 return .none
@@ -68,7 +66,7 @@ public struct NewProjectCore: ReducerProtocol {
                 return .send(.delegate(.cancelButtonTapped))
             case .createProjectResponse(.success(let project)):
                 print(project)
-                return .none
+                return .send(.delegate(.successfulResponse))
             case .createProjectResponse(.failure(let error)):
                 print("❌ \(error)")
                 return .none

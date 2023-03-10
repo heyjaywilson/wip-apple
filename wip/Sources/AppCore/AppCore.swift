@@ -15,16 +15,13 @@ public struct AppCore: ReducerProtocol {
     public init() {}
 
     public struct State: Equatable {
-        public var name: String
         public var showAddProjectForm: Bool
         public var newProjectState: NewProjectCore.State
 
         public init(
-            name: String = "",
             showAddProjectForm: Bool = false,
             newProjectState: NewProjectCore.State = NewProjectCore.State()
         ) {
-            self.name = name
             self.showAddProjectForm = showAddProjectForm
             self.newProjectState = newProjectState
         }
@@ -59,14 +56,12 @@ public struct AppCore: ReducerProtocol {
             case let .newProject(.delegate(action)):
                 switch action {
                     case .cancelButtonTapped:
-                        withAnimation {
-                            state.newProjectState = NewProjectCore.State()
-                            state.showAddProjectForm = false
-                        }
+                        state.showAddProjectForm = false
+                        state.newProjectState = NewProjectCore.State()
                         return .none
                     case .successfulResponse:
-                        state.newProjectState = NewProjectCore.State()
                         state.showAddProjectForm = false
+                        state.newProjectState = NewProjectCore.State()
                         return .none
                 }
             case .newProject:
