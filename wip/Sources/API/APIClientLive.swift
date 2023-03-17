@@ -17,7 +17,7 @@ extension APIClient {
             addNewProject: { project in
                 let request = AF.request(baseURL+APIEndpoints.projects, method: .post, parameters: project, encoder: JSONParameterEncoder.prettyPrinted)
 
-                let dataTask = request.serializingDecodable( Project.self)
+                let dataTask = request.serializingDecodable(Project.self)
                 let response = await dataTask.result
                 do {
                     return try response.get()
@@ -27,7 +27,15 @@ extension APIClient {
                 }
             },
             fetchAllProjects: {
-                return [Project]()
+                let request = AF.request(baseURL+APIEndpoints.projects, method: .get)
+                let dataTask = request.serializingDecodable(Array<Project>.self)
+                let response = await dataTask.result
+                do {
+                    return try response.get()
+                } catch {
+                    print(error)
+                    throw APIError()
+                }
             }
         )
     }

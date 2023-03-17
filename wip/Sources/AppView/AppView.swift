@@ -42,13 +42,17 @@ public struct AppView: View {
                             .padding(.bottom)
                         Spacer()
                     }
-                }.sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
-                        NewProjectView(
-                            store: self.store.scope(
-                                state: \.newProjectState,
-                                action: AppCore.Action.newProject
-                            )
+                }
+                .sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
+                    NewProjectView(
+                        store: self.store.scope(
+                            state: \.newProjectState,
+                            action: AppCore.Action.newProject
                         )
+                    )
+                }
+                .task {
+                    viewStore.send(.onAppear)
                 }
             } content: {
                 Text("tasks")

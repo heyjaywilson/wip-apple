@@ -8,10 +8,14 @@
 import ComposableArchitecture
 import Foundation
 import NewProjectCore
+import WIPKit
+import API
 
 import SwiftUI
 
 public struct AppCore: ReducerProtocol {
+    @Dependency(\.apiClient) var apiClient
+
     public init() {}
 
     public struct State: Equatable {
@@ -29,6 +33,7 @@ public struct AppCore: ReducerProtocol {
 
     public enum Action: Equatable {
         case onAppear
+        case getProjectsResponse(TaskResult<Array<Project>>)
         case addProjectButtonTapped
         case newProject(NewProjectCore.Action)
     }
@@ -47,6 +52,14 @@ public struct AppCore: ReducerProtocol {
     private func core(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
             case .onAppear:
+                return .task {
+                    await .getProjectsResponse(TaskResult { try await apiClient.fetchAllProjects()})
+                }
+            case let .getProjectsResponse(.success(projects)):
+                print(projects)
+                return .none
+            case let .getProjectsResponse(.failure(error)):
+                print(error)
                 return .none
             case .addProjectButtonTapped:
                 withAnimation {
