@@ -1,0 +1,12 @@
+name: app-core-tests
+run-name: AppCore tests by {{github.actor}}
+on: [pull_request_opened]
+
+jobs:
+  build:
+	  runs-on: macos-latest
+	  
+	  steps:
+		  - uses: actions/checkout@v3
+		  - name: Build
+		    run: swift build
