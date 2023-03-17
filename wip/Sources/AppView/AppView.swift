@@ -9,6 +9,7 @@ import SwiftUI
 import AppCore
 import NewProjectView
 import NewProjectCore
+import WIPKit
 import ComposableArchitecture
 import SFSafeSymbols
 
@@ -22,27 +23,22 @@ public struct AppView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationSplitView(columnVisibility: .constant(.all)) {
-                ZStack(alignment: .bottom) {
                     List {
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
+                        ForEach(viewStore.projects) { project in
+                            Text(project.title)
+                        }
                     }
-                    HStack {
-                        Button {
-                            viewStore.send(.addProjectButtonTapped)
-                        } label: {
-                            Label("Add Project", systemSymbol: .plus)
-                        }.buttonStyle(.plain).padding(.leading, 10.0)
-                            .padding(.bottom)
-                        Spacer()
+                    .safeAreaInset(edge: .bottom) {
+                        HStack {
+                            Button {
+                                viewStore.send(.addProjectButtonTapped)
+                            } label: {
+                                Label("Add Project", systemSymbol: .plus)
+                            }.buttonStyle(.plain).padding(.leading, 10.0)
+                                .padding(.bottom)
+                            Spacer()
+                        }
                     }
-                }
                 .sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
                     NewProjectView(
                         store: self.store.scope(
