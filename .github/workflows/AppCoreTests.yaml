@@ -1,15 +1,10 @@
-name: app-core-tests
-run-name: AppCore tests by {{github.actor}}
-on: 
+name: App Core Tests
+on:
   workflow_dispatch:
   push:
-
 jobs:
-	build:
-  
-	  runs-on: macos-latest
-  
-	  steps:
-		- uses: actions/checkout@v3
-		- name: Build
-		  run: swift build
+  build:
+	runs-on: macos-latest
+	steps:
+	  - uses: actions/checkout@v3
+	  - run: swift build
