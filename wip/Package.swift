@@ -8,9 +8,7 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "wip",
-            targets: ["wip"]),
+        .library(name: "wip", targets: ["wip"]),
         .library(name: "API", targets: ["API"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         .library(name: "AppView", targets: ["AppView"]),
@@ -49,6 +47,7 @@ let package = Package(
             .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
+        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(
             name: "AppView",
             dependencies: [
