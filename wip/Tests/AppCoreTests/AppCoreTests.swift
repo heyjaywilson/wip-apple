@@ -8,6 +8,8 @@
 import XCTest
 import ComposableArchitecture
 import AppCore
+import WIPKit
+import API
 
 @MainActor
 final class AppCoreTests: XCTestCase {
@@ -28,6 +30,46 @@ final class AppCoreTests: XCTestCase {
 
         await store.send(.addProjectButtonTapped) {
             $0.showAddProjectForm = true
+        }
+    }
+
+    func testOnApperSuccess() async {
+        let store = TestStore(
+            initialState: AppCore.State(),
+            reducer: AppCore()
+        )
+
+        await store.send(.onAppear)
+        await store.receive(
+            .getProjectsResponse(
+                .success([
+                    Project(
+                        id: UUID(uuidString: "00000000-0000-0000-0000-000000000000"),
+                        title: "Test Project"
+                    )
+                ])
+            )
+        ) {
+            $0.projects = [
+                Project(
+                    id: UUID(uuidString: "00000000-0000-0000-0000-000000000000"),
+                    title: "Test Project"
+                )
+            ]
+        }
+    }
+
+    func testOnAppearError() async {
+        let store = TestStore(
+            initialState: AppCore.State(),
+            reducer: AppCore()
+        )
+        store.dependencies.apiClient.fetchAllProjects = { throw APIError() }
+
+        await store.send(.onAppear)
+
+        await store.receive(.getProjectsResponse(.failure(APIError()))) {
+            $0.apiError = APIError()
         }
     }
 

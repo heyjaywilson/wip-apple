@@ -71,7 +71,9 @@ let package = Package(
         ),
         .target(
             name: "WIPKit",
-            dependencies: []
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+                ]
         )
     ]
 )

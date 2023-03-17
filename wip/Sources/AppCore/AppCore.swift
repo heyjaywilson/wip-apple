@@ -21,13 +21,19 @@ public struct AppCore: ReducerProtocol {
     public struct State: Equatable {
         public var showAddProjectForm: Bool
         public var newProjectState: NewProjectCore.State
+        public var projects: [Project]
+        public var apiError: APIError?
 
         public init(
             showAddProjectForm: Bool = false,
-            newProjectState: NewProjectCore.State = NewProjectCore.State()
+            newProjectState: NewProjectCore.State = NewProjectCore.State(),
+            projects: [Project] = [],
+            error: APIError? = nil
         ) {
             self.showAddProjectForm = showAddProjectForm
             self.newProjectState = newProjectState
+            self.projects = projects
+            self.apiError = error
         }
     }
 
@@ -56,10 +62,11 @@ public struct AppCore: ReducerProtocol {
                     await .getProjectsResponse(TaskResult { try await apiClient.fetchAllProjects()})
                 }
             case let .getProjectsResponse(.success(projects)):
-                print(projects)
+                state.projects = projects
                 return .none
             case let .getProjectsResponse(.failure(error)):
-                print(error)
+                print("🚩 AppCore.getProjectResponse: \(error)")
+                state.apiError = error as? APIError
                 return .none
             case .addProjectButtonTapped:
                 withAnimation {
