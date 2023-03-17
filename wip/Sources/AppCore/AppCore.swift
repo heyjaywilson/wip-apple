@@ -11,8 +11,6 @@ import NewProjectCore
 import WIPKit
 import API
 
-import SwiftUI
-
 public struct AppCore: ReducerProtocol {
     @Dependency(\.apiClient) var apiClient
 
@@ -69,9 +67,7 @@ public struct AppCore: ReducerProtocol {
                 state.apiError = error as? APIError
                 return .none
             case .addProjectButtonTapped:
-                withAnimation {
-                    state.showAddProjectForm = true
-                }
+                state.showAddProjectForm = true
                 return .none
             case let .newProject(.delegate(action)):
                 switch action {
