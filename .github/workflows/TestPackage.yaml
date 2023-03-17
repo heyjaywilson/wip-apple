@@ -17,9 +17,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Change directory
-      run: cd wip
-    - name: Build
-      run: swift build -v
     - name: Run tests
-      run: swift test -v
+      run: cd wip && swift test -v
