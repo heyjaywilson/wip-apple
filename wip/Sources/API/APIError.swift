@@ -7,4 +7,6 @@
 
 import Foundation
 
-public struct APIError: Error, Equatable {}
+public struct APIError: Error, Equatable {
+    public init() { }
+}

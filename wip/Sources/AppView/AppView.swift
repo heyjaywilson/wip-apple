@@ -9,9 +9,11 @@ import SwiftUI
 import AppCore
 import NewProjectView
 import NewProjectCore
+import WIPKit
 import ComposableArchitecture
 import SFSafeSymbols
 
+@available(macOS 13.0, *)
 public struct AppView: View {
     let store: StoreOf<AppCore>
 
@@ -22,33 +24,32 @@ public struct AppView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationSplitView(columnVisibility: .constant(.all)) {
-                ZStack(alignment: .bottom) {
                     List {
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
-                        Text("Projects")
+                        ForEach(viewStore.projects) { project in
+                            Text(project.title)
+                        }
                     }
-                    HStack {
-                        Button {
-                            viewStore.send(.addProjectButtonTapped)
-                        } label: {
-                            Label("Add Project", systemSymbol: .plus)
-                        }.buttonStyle(.plain).padding(.leading, 10.0)
-                            .padding(.bottom)
-                        Spacer()
+                    .safeAreaInset(edge: .bottom) {
+                        HStack {
+                            Button {
+                                viewStore.send(.addProjectButtonTapped)
+                            } label: {
+                                Label("Add Project", systemSymbol: .plus)
+                            }.buttonStyle(.plain).padding(.leading, 10.0)
+                                .padding(.bottom)
+                            Spacer()
+                        }
                     }
-                }.sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
-                        NewProjectView(
-                            store: self.store.scope(
-                                state: \.newProjectState,
-                                action: AppCore.Action.newProject
-                            )
+                .sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
+                    NewProjectView(
+                        store: self.store.scope(
+                            state: \.newProjectState,
+                            action: AppCore.Action.newProject
                         )
+                    )
+                }
+                .task {
+                    viewStore.send(.onAppear)
                 }
             } content: {
                 Text("tasks")
@@ -60,6 +61,7 @@ public struct AppView: View {
     }
 }
 
+@available(macOS 13.0, *)
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         AppView(

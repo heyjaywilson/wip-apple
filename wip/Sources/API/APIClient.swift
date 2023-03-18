@@ -19,4 +19,5 @@ extension DependencyValues {
 
 public struct APIClient: DependencyKey {
     public var addNewProject: (Project) async throws -> Project
+    public var fetchAllProjects: () async throws -> [Project]
 }
