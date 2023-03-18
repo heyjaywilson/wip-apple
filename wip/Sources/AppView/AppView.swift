@@ -13,6 +13,7 @@ import WIPKit
 import ComposableArchitecture
 import SFSafeSymbols
 
+@available(macOS 13.0, *)
 public struct AppView: View {
     let store: StoreOf<AppCore>
 
@@ -60,6 +61,7 @@ public struct AppView: View {
     }
 }
 
+@available(macOS 13.0, *)
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         AppView(
