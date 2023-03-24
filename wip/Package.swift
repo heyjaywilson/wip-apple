@@ -14,12 +14,13 @@ let package = Package(
         .library(name: "AppView", targets: ["AppView"]),
         .library(name: "NewProjectCore", targets: ["NewProjectCore"]),
         .library(name: "NewProjectView", targets: ["NewProjectView"]),
+        .library(name: "ProjectView", targets: ["ProjectView"]),
         .library(name: "WIPKit", targets: ["WIPKit"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "0.51.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "navigation-beta"),
         .package(url: "https://github.com/SFSafeSymbols/SFSafeSymbols.git", .upToNextMajor(from: "4.1.1")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.6.1"))
     ],
@@ -51,9 +52,14 @@ let package = Package(
         .target(
             name: "AppView",
             dependencies: [
-                "AppCore", "NewProjectView",
+                "AppCore", "NewProjectView", "ProjectView",
                 .product(name: "SFSafeSymbols", package: "SFSafeSymbols")
             ]
+        ),
+        .target(
+            name: "ProjectView",
+            dependencies: [
+                "WIPKit"]
         ),
         .target(
             name: "NewProjectCore",
