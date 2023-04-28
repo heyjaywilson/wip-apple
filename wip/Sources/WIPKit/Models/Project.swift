@@ -8,7 +8,7 @@
 import Foundation
 import Dependencies
 
-public struct Project: Equatable, Codable, Identifiable {
+public struct Project: Equatable, Codable, Identifiable, Hashable {
 
     public var id: UUID
     public var title: String
@@ -17,11 +17,7 @@ public struct Project: Equatable, Codable, Identifiable {
 
     public init(id: UUID? = UUID(), title: String, description: String? = nil, status: Status? = nil) {
         @Dependency(\.uuid) var uuid
-        if let id {
-            self.id = id
-        } else {
-            self.id = uuid.callAsFunction()
-        }
+        self.id = id ?? uuid()
         self.title = title
         self.description = description
         self.status = status ?? Status.mock
@@ -32,5 +28,33 @@ public struct Project: Equatable, Codable, Identifiable {
         case title
         case description
         case status
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension Project {
+    public static var mock: Self {
+        return Project(
+            title: "Test Project",
+            description: "This is a description. It has **markdown** but it's not parsed yet.",
+            status: Status.mock
+        )
+    }
+    public static var mockDescriptionEmpty: Self {
+        return Project(
+            title: "Test Project",
+            description: "",
+            status: Status.mock
+        )
+    }
+    public static var mockNoDescription: Self {
+        return Project(
+            title: "Test Project",
+            description: nil,
+            status: Status.mock
+        )
     }
 }

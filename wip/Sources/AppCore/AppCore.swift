@@ -21,16 +21,19 @@ public struct AppCore: ReducerProtocol {
         public var newProjectState: NewProjectCore.State
         public var projects: [Project]
         public var apiError: APIError?
+        public var selectedProject: Project?
 
         public init(
             showAddProjectForm: Bool = false,
             newProjectState: NewProjectCore.State = NewProjectCore.State(),
             projects: [Project] = [],
+            selectedProject: Project? = nil,
             error: APIError? = nil
         ) {
             self.showAddProjectForm = showAddProjectForm
             self.newProjectState = newProjectState
             self.projects = projects
+            self.selectedProject = selectedProject
             self.apiError = error
         }
     }
@@ -40,6 +43,7 @@ public struct AppCore: ReducerProtocol {
         case getProjectsResponse(TaskResult<Array<Project>>)
         case addProjectButtonTapped
         case newProject(NewProjectCore.Action)
+        case onProjectSelect(Project?)
     }
 
     public var body: some ReducerProtocol<State, Action> {
@@ -63,7 +67,6 @@ public struct AppCore: ReducerProtocol {
                 state.projects = projects
                 return .none
             case let .getProjectsResponse(.failure(error)):
-                print("🚩 AppCore.getProjectResponse: \(error)")
                 state.apiError = error as? APIError
                 return .none
             case .addProjectButtonTapped:
@@ -81,6 +84,10 @@ public struct AppCore: ReducerProtocol {
                         return .none
                 }
             case .newProject:
+                return .none
+            case let .onProjectSelect(project):
+                state.selectedProject = nil
+                state.selectedProject = project
                 return .none
         }
     }
