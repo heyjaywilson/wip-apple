@@ -14,7 +14,6 @@ import ComposableArchitecture
 import SFSafeSymbols
 import ProjectView
 
-@available(macOS 13.0, *)
 public struct AppView: View {
     let store: StoreOf<AppCore>
 
@@ -43,9 +42,9 @@ public struct AppView: View {
                         } label: {
                             Label("Add Project", systemSymbol: .plus)
                         }.buttonStyle(.plain).padding(.leading, 10.0)
-                            .padding(.bottom)
+                            .padding(.vertical)
                         Spacer()
-                    }
+                    }.background(Material.bar)
                 }
                 .sheet(isPresented: viewStore.binding(get: \.showAddProjectForm, send: .newProject(.cancelButtonTapped))) {
                     NewProjectView(
@@ -58,25 +57,26 @@ public struct AppView: View {
                 .task {
                     viewStore.send(.onAppear)
                 }
-                .navigationSplitViewColumnWidth(200)
             } content: {
-                Text("tasks")
+                Text("New tasks")
+                    .frame(maxWidth: .infinity)
             } detail: {
                 if let project = viewStore.selectedProject {
-                    ProjectView(project: project)
+                    VStack {
+                        ProjectView(project: project)
+                        Spacer()
+                    }
                 }
             }
         }
-        .debug()
     }
 }
 
-@available(macOS 13.0, *)
-struct SwiftUIView_Previews: PreviewProvider {
+struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView(
             store: Store(
-                initialState: AppCore.State(),
+                initialState: AppCore.State(selectedProject: Project.mock),
                 reducer: AppCore()
             )
         )

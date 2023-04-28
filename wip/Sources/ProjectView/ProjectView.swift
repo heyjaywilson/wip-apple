@@ -15,7 +15,7 @@ public struct ProjectView: View {
     }
     public var body: some View {
         VStack(alignment: .leading) {
-            HStack {
+            HStack(alignment: .lastTextBaseline) {
                 Text(project.title)
                     .font(.title)
                 Spacer()
@@ -25,15 +25,20 @@ public struct ProjectView: View {
                         .frame(width: 10)
                     Text("In progress")
                 }.font(.subheadline)
-            }
+            }.padding(.horizontal)
             Divider()
-            Text("Description")
-                .font(.subheadline)
-            if let description = project.description {
-                Text(description)
-            } else {
-                Text("Enter a project description")
-            }
+            VStack(alignment: .leading) {
+                Text("Description")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                if let description = project.description,
+                   description.isEmpty == false {
+                    Text(description)
+                } else {
+                    Text("Enter a project description")
+                }
+            }.padding(.horizontal)
+            Spacer()
         }
     }
 }
@@ -41,5 +46,10 @@ public struct ProjectView: View {
 struct ProjectView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectView(project: .mock)
+            .previewDisplayName("All parameters")
+        ProjectView(project: .mockDescriptionEmpty)
+            .previewDisplayName("Empty Description")
+        ProjectView(project: .mockNoDescription)
+            .previewDisplayName("No Description")
     }
 }

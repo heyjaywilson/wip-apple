@@ -43,4 +43,18 @@ extension Project {
             status: Status.mock
         )
     }
+    public static var mockDescriptionEmpty: Self {
+        return Project(
+            title: "Test Project",
+            description: "",
+            status: Status.mock
+        )
+    }
+    public static var mockNoDescription: Self {
+        return Project(
+            title: "Test Project",
+            description: nil,
+            status: Status.mock
+        )
+    }
 }
